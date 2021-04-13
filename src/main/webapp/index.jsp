@@ -1,12 +1,23 @@
+<%@ page import="jakarta.servlet.http.Cookie" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${cookie['lang'].value}"/>
+<c:choose>
+    <c:when test="${cookie.containsKey('lang')}">
+        <c:set var="lang" scope="session" value="${cookie['lang'].value}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="lang" scope="session" value="${pageContext.request.locale}"/>
+    </c:otherwise>
+</c:choose>
+
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="ResourceBundle/Home/Home"/>
 
 <!DOCTYPE html>
-<html class="h-100" lang="${cookie['lang'].value}">
+<html class="h-100" lang="${lang}">
 <head>
     <!-- meta tags -->
     <meta charset="utf-8"/>

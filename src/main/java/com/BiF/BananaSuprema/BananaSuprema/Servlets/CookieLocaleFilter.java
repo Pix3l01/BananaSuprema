@@ -24,24 +24,18 @@ public class CookieLocaleFilter implements Filter {
                     langSelected = true;
                 }
             }
-            if (!langSelected) {
-                Cookie cookie = new Cookie("lang", req.getLocale().toString().substring(0, 2));
-                cookie.setMaxAge(60 * 60 * 24 * 365);
-                res.addCookie(cookie);
-            }
+        }
+        if (cookies == null || !langSelected) {
+            Cookie cookie = new Cookie("lang", req.getLocale().toString().substring(0, 2));
+            cookie.setMaxAge(60 * 60 * 24 * 365);
+            res.addCookie(cookie);
         }
         if (req.getParameter("cookieLocale") != null) {
-            if (cookies != null) {
-                for (Cookie c : cookies) {
-                    if (c.getName().equals("lang")) {
-                        c.setValue(req.getParameter("cookieLocale"));
-                        res.addCookie(c);
-                    }
+            for (Cookie c : cookies) {
+                if (c.getName().equals("lang")) {
+                    c.setValue(req.getParameter("cookieLocale"));
+                    res.addCookie(c);
                 }
-            } else {
-                Cookie cookie = new Cookie("lang", req.getParameter("cookieLocale"));
-                cookie.setMaxAge(60 * 60 * 24 * 365);
-                res.addCookie(cookie);
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
