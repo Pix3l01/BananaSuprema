@@ -7,7 +7,7 @@ import java.util.Properties;
 public class Configuration {
 
     private static Configuration instance = null;
-    private Properties properties;
+    private final Properties properties;
 
     private Configuration() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
